@@ -3,6 +3,7 @@
 *.pot
 *.pyc
 __pycache__
+__pycache__/
 
 # Environments 
 .env 
@@ -20,3 +21,7 @@ venv.bak/
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+**/migrations/*
+!**/migrations/__init__.py
+/static/
