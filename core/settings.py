@@ -7,7 +7,11 @@ SECRET_KEY = "django-insecure-b14dg1l14043l4wc9&5n))e%i7a^ri2qr)_0h%z#+6)pt$eo4x
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["bitacorabackend.jwplabs.com", "0.0.0.0:4321"]
+ALLOWED_HOSTS = [
+    "bitacorabackend.jwplabs.com",
+    "127.0.0.1",
+    "0.0.0.0:4321",
+]
 
 INSTALLED_APPS = [
     "daphne",

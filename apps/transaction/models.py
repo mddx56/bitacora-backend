@@ -19,6 +19,19 @@ class Category(models.Model):
         return f"{self.name}"
 
 
+class Category(models.Model):
+    name = models.CharField(
+        verbose_name="Nombre de categoria", unique=True, max_length=350
+    )
+
+    class Meta:
+        verbose_name = "Categoria de transaccion"
+        verbose_name_plural = "Categorias"
+
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+
 class Transaction(TimeStampedBaseModel):
     amount = models.DecimalField(verbose_name="Monto", max_digits=10, decimal_places=2)
     description = models.TextField(verbose_name="Descripcion", blank=True)
