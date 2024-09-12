@@ -24,7 +24,7 @@ class Card(TimeStampedBaseModel):
         "Límite de credito", blank=True, null=True, max_digits=10, decimal_places=2
     )
     current_balance = models.DecimalField(
-        verbose_name="Saldo actua",
+        verbose_name="Saldo actual",
         blank=True,
         null=True,
         max_digits=10,
