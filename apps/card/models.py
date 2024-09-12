@@ -5,8 +5,12 @@ from apps.bank.models import Bank
 
 
 class Card(TimeStampedBaseModel):
+    class Status(models.TextChoices):
+        ACTIVE = "A", "Active"
+        INACTIVE = "I", "Inactive"
+
     card_number = models.CharField(
-        verbose_name="Número de tarjeta.", null=False, max_length=250
+        verbose_name="Número de tarjeta.", null=False, unique=True, max_length=250
     )
     holder = models.CharField(
         verbose_name="Titular de la tarjeta", null=False, max_length=600
@@ -27,7 +31,12 @@ class Card(TimeStampedBaseModel):
         decimal_places=2,
     )
     status = models.CharField(
-        verbose_name="Estado de la tarjeta", blank=True, null=True, max_length=56
+        verbose_name="Estado de la tarjeta",
+        blank=True,
+        null=True,
+        max_length=1,
+        choices=Status.choices,
+        default=Status.ACTIVE,
     )
     issue_date = models.DateField(
         verbose_name="Fecha de emision",
