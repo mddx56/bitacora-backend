@@ -26,7 +26,6 @@ class GroupListCreateAPIView(APIView):
         serializer = GroupSerializer(groups, many=True)
         return Response(serializer.data)
 
-    # Crear un nuevo grupo
     def post(self, request):
         serializer = GroupSerializer(data=request.data)
         if serializer.is_valid():
