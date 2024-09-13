@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-b14dg1l14043l4wc9&5n))e%i7a^ri2qr)_0h%z#+6)pt$eo4x"
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "bitacorabackend.jwplabs.com",
@@ -44,7 +44,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
 ROOT_URLCONF = "core.urls"
+
 
 TEMPLATES = [
     {
@@ -65,12 +67,14 @@ TEMPLATES = [
 # WSGI_APPLICATION = "core.wsgi.application"
 ASGI_APPLICATION = "core.asgi.application"
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -87,11 +91,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -110,14 +116,9 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -1,11 +1,11 @@
 from django.urls import include, path
 from rest_framework import routers
-from apps.transaction.views import CategorySerializer, TransactionView
+from apps.transaction import views
 
-router = routers.DefaultRouter()
-# router.register("category", CategorySerializer)
-router.register("", TransactionView)
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("", views.TransactionView.as_view(), name="Transaccion"),
+    path("category/", views.CategoryView.as_view(), name="Categoria"),
+    path("devit/", views.DebitCard, name="Devitar tarjeta"),
+    path("credito/", views.CreditCard, name="Credito tarjeta"),
 ]

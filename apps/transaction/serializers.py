@@ -14,12 +14,12 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class SaldoSerializer(serializers.ModelSerializer):
+class SaldoSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     amount = serializers.DecimalField(max_digits=10, decimal_places=2)
 
-    def validate_id(self, value):
-        print("validate_title method")
-        if "_" in value:
-            raise serializers.ValidationError("illegal char")
+    def validate_amount(self, value):
+        print(value)
+        if value <= 0:
+            raise serializers.ValidationError("deve ser mayor a cero")
         return value
