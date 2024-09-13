@@ -12,7 +12,12 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "bitacorabackend.jwplabs.com",
     "127.0.0.1",
+    "13.59.191.133",
     "0.0.0.0",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://bitacorabackend.jwplabs.com",
 ]
 
 INSTALLED_APPS = [
@@ -22,6 +27,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "drf_yasg",
     "rest_framework_simplejwt",
@@ -36,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
