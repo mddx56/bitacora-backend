@@ -5,4 +5,4 @@ from .models import Bank
 class Bankerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank
-        fields = "__all__"
+        fields = ["id", "name"]

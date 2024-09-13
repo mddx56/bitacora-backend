@@ -34,8 +34,8 @@ class Transaction(TimeStampedBaseModel):
     type = models.CharField(
         verbose_name="Tipo", max_length=1, choices=TypeTr.choices, default=TypeTr.DEBIT
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    card = models.ForeignKey(Card, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Transaction"
