@@ -25,3 +25,4 @@ venv.bak/
 **/migrations/*
 !**/migrations/__init__.py
 /static/
+staticfiles/
