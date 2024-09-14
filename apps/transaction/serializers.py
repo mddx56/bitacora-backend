@@ -15,6 +15,13 @@ class TransactionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("deve ser mayor a cero")
         return value
 
+    def validate(self, attrs):
+        if attrs["merchant"] == attrs["description"]:
+            raise serializers.ValidationError(
+                "description y merchant no pueden ser iguales"
+            )
+        return attrs
+
     class Meta:
         model = Transaction
         fields = "__all__"

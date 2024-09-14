@@ -26,7 +26,7 @@ class Transaction(TimeStampedBaseModel):
         CREDIT = "C", "Credit"
 
     amount = models.DecimalField(verbose_name="Monto", max_digits=10, decimal_places=2)
-    description = models.TextField(verbose_name="Descripcion", blank=True)
+    description = models.TextField(verbose_name="Descripcion")
     merchant = models.CharField(verbose_name="Comercio", max_length=450)
     category = models.ForeignKey(
         Category, verbose_name="Categoria", on_delete=models.CASCADE
