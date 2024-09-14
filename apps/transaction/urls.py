@@ -7,5 +7,5 @@ urlpatterns = [
     path("", views.TransactionView.as_view(), name="Transaccion"),
     path("category/", views.CategoryView.as_view(), name="Categoria"),
     path("devit/", views.DebitCard, name="Devitar tarjeta"),
-    path("credito/", views.CreditCard, name="Credito tarjeta"),
+    path("credit/", views.CreditCard, name="Credito tarjeta"),
 ]

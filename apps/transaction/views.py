@@ -5,7 +5,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from apps.card.models import Card
 from .models import Transaction, Category
-from .serializers import TransactionSerializer, CategorySerializer, SaldoSerializer
+from .serializers import TransactionSerializer, CategorySerializer
 from django.db import transaction
 
 
@@ -22,24 +22,60 @@ class TransactionView(generics.ListCreateAPIView):
 @api_view(["POST"])
 def DebitCard(request):
     with transaction.atomic():
-        serializer = SaldoSerializer(data=request.data)
+        serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():
-            _id = serializer.validated_data["id"]
             amount = serializer.validated_data["amount"]
-            card = Card.objects.select_for_update().get(id=_id)
-            # Transaction.objects.create(account=account, amount=Decimal(amount),
+            card = serializer.validated_data["card"]
+            user = serializer.validated_data["user"]
+            category = serializer.validated_data["category"]
+            merchant = serializer.validated_data["merchant"]
+            description = serializer._validated_data["description"]
+            cards = Card.objects.select_for_update().get(id=card.id)
+            cards.current_balance += amount
+            cards.save()
+            transac = Transaction.objects.create(
+                amount=amount,
+                merchant=merchant,
+                description=description,
+                user=user,
+                type="D",
+                category=category,
+                card=cards,
+            )
+            serializer_transaction = TransactionSerializer(transac)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(_id, status=status.HTTP_200_OK)
+        return Response(
+            data=serializer_transaction.data, status=status.HTTP_201_CREATED
+        )
 
 
 @api_view(["POST"])
 def CreditCard(request):
     with transaction.atomic():
-        pass
-        # account = Card.objects.select_for_update().get(user=user)
-        # Transaction.objects.create(
-        ##    account=account, amount=Decimal(amount), transaction_type="credit"
-        # )
-        # account.balance += Decimal(amount)
-        # account.save()
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            amount = serializer.validated_data["amount"]
+            card = serializer.validated_data["card"]
+            user = serializer.validated_data["user"]
+            description = serializer._validated_data["description"]
+            category = serializer.validated_data["category"]
+            merchant = serializer.validated_data["merchant"]
+            cards = Card.objects.select_for_update().get(id=card.id)
+            cards.current_balance -= amount
+            cards.save()
+            transac = Transaction.objects.create(
+                amount=amount,
+                merchant=merchant,
+                description=description,
+                user=user,
+                type="C",
+                category=category,
+                card=cards,
+            )
+            serializer_transaction = TransactionSerializer(transac)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            data=serializer_transaction.data, status=status.HTTP_201_CREATED
+        )
