@@ -8,7 +8,9 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.models import Group
-from .serializers import GroupSerializer
+from .serializers import GroupSerializer, MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
 
 User = get_user_model()
 
@@ -17,6 +19,16 @@ class UserAccountView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+
+
+class ObtainTokenPairView(TokenObtainPairView):
+    """permission_classes(
+        AllowAny,
+    )"""
+
+    permission_classes = [AllowAny]
+
+    serializer_class = MyTokenObtainPairSerializer
 
 
 class GroupListCreateAPIView(APIView):

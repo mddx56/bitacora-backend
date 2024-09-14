@@ -1,9 +1,13 @@
 from django.urls import include, path
 from rest_framework import routers
-from apps.card.views import CardView
+from apps.card import views
 
-router = routers.DefaultRouter()
-router.register("", CardView)
+# router = routers.DefaultRouter()
+# router.register("", views.CardView)
 urlpatterns = [
-    path("", include(router.urls)),
+    # path("", include(router.urls)),
+    path("list/", views.CardListView, name="List Card paginated"),
+    path("create/", views.CardCreateAPIView.as_view(), name="Card create"),
+    path("update/<pk>/", views.CardUpdateAPIView.as_view(), name="Card update"),
+    path("get/<pk>/", views.CardRetrieveAPIView.as_view(), name="Card retrieve"),
 ]

@@ -1,9 +1,10 @@
 from django.urls import include, path
 from rest_framework import routers
-from apps.bank.views import BankView
+from apps.bank import views
 
-router = routers.DefaultRouter()
-router.register("", BankView)
 urlpatterns = [
-    path("", include(router.urls)),
+    path("list/", views.BankListAPIView.as_view(), name="Bank list"),
+    path("create/", views.BankCreateAPIView.as_view(), name="Bank create"),
+    path("update/<pk>", views.BankUpdateAPIView.as_view(), name="Bank update"),
+    path("get/<pk>", views.BankRetrieveAPIView.as_view(), name="Bank get"),
 ]
