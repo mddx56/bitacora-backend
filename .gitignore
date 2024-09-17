@@ -26,3 +26,5 @@ venv.bak/
 !**/migrations/__init__.py
 /static/
 staticfiles/
+
+.sqlite3
