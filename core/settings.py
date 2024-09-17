@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 # BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-SECRET_KEY = "django-insecure-b14dg1l14043l4wc9&5n))e%i7a^ri2qr)_0h%z#+6)pt$eo4x"
+SECRET_KEY = "h!(p3gt(a@td!jfrzxwtl5u+j@@jf&5ntywc!_64&_mm-yaghr"
 
 DEBUG = True
 
@@ -112,6 +112,16 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
 }
+
+# CACHES = {
+#    "default": {
+#        "BACKEND": "django_redis.cache.RedisCache",
+#        "LOCATION": "redis://127.0.0.1:6379/1",
+#        "OPTIONS": {
+#            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#        },
+#    }
+# }
 
 
 LANGUAGE_CODE = "es-BO"

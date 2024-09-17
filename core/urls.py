@@ -19,13 +19,13 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/auth/", include("apps.account.urls")),
-    path("api/card/", include("apps.card.urls")),
-    path("api/bank/", include("apps.bank.urls")),
-    path("api/transaction/", include("apps.transaction.urls")),
+    path("api/auth/", include("apps.account.urls"), name="Usuarios"),
+    path("api/card/", include("apps.card.urls"), name="Tarjetas"),
+    path("api/bank/", include("apps.bank.urls"), name="Bancos"),
+    path("api/transaction/", include("apps.transaction.urls"), name="Transaccion"),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
+        name="schema",
     ),
 ]

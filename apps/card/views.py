@@ -1,13 +1,16 @@
-from rest_framework import viewsets
+from django.db import transaction
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from .models import Card
 from .serializers import CardSerializer, CardListSerializer
-from django.db import transaction
-from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView
 
 
+# @cache_page(60 * 2, key_prefix="banco")
+# @vary_on_cookie
 @api_view(["GET"])
 def CardListView(request):
     page = int(request.GET.get("page", 1))

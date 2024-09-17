@@ -4,9 +4,8 @@ from rest_framework.generics import (
     RetrieveAPIView,
     ListAPIView,
 )
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.decorators import api_view
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from .models import Bank
 from .serializers import Bankerializer
 
@@ -24,6 +23,10 @@ class BankUpdateAPIView(UpdateAPIView):
 class BankListAPIView(ListAPIView):
     serializer_class = Bankerializer
     queryset = Bank.objects.all()
+
+    @method_decorator(cache_page(60 * 3))  # Cache por 15 minutos
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
 
 class BankRetrieveAPIView(RetrieveAPIView):
