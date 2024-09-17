@@ -14,9 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop("password")
+        groups = validated_data.pop("groups", [])
         user = User(**validated_data)
         user.set_password(password)
         user.save()
+        user.groups.set(groups)
         return user
 
 

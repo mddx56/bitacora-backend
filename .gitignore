@@ -27,4 +27,4 @@ venv.bak/
 /static/
 staticfiles/
 
-.sqlite3
+*.sqlite3

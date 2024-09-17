@@ -31,6 +31,24 @@ def DebitCard(request):
             merchant = serializer.validated_data["merchant"]
             description = serializer._validated_data["description"]
             cards = Card.objects.select_for_update().get(id=card.id)
+
+            if cards.status != cards.Status.ACTIVE:
+                return Response(
+                    {"detail": "Tarjeta no activa."}, status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if amount <= 0:
+                return Response(
+                    {"detail": "Monto deve ser mayor a cero."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            if amount > cards.credit_limit:
+                return Response(
+                    {"detail": "El monto excede el límite máximo de depósito."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             cards.current_balance += amount
             cards.save()
             transac = Transaction.objects.create(
@@ -62,6 +80,16 @@ def CreditCard(request):
             category = serializer.validated_data["category"]
             merchant = serializer.validated_data["merchant"]
             cards = Card.objects.select_for_update().get(id=card.id)
+
+            if cards.status != cards.Status.ACTIVE:
+                print("Tarjeta no activa")
+
+            if amount <= 0:
+                print("Monto deve ser mayor a cero")
+
+            if cards.current_balance < amount:
+                print("Fondos insuficientes.")
+
             cards.current_balance -= amount
             cards.save()
             transac = Transaction.objects.create(
