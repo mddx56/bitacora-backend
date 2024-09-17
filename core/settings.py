@@ -21,7 +21,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 INSTALLED_APPS = [
-    "unfold",
+    # "unfold",
     "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
