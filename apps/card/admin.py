@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Card
 
-from unfold.admin import ModelAdmin
+# from unfold.admin import ModelAdmin
 
 """
 @admin.register(Card)
