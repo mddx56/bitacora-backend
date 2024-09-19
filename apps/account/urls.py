@@ -5,13 +5,19 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from .views import UserAccountView, GroupListCreateAPIView, ObtainTokenPairView
+from .views import (
+    UserAccountView,
+    GroupListCreateAPIView,
+    ObtainTokenPairView,
+    UserRetrieveView,
+)
 
 # router = routers.DefaultRouter()
 
 urlpatterns = [
     # path("", include(router.urls)),
     path("users/", UserAccountView.as_view(), name="user_list"),
+    path("user/<int:id>/", UserRetrieveView.as_view(), name="user_get"),
     path("groups/", GroupListCreateAPIView.as_view(), name="group_list"),
     path("login/", ObtainTokenPairView.as_view(), name="token_obtain_pair"),
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),

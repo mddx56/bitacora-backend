@@ -9,19 +9,27 @@ class Card(TimeStampedBaseModel):
         ACTIVE = "A", "Active"
         INACTIVE = "I", "Inactive"
 
+    class TypeC(models.TextChoices):
+        DEBIT = "D", "Debit"
+        CREDIT = "C", "Credit"
+
     card_number = models.CharField(
-        verbose_name="Número de tarjeta.", null=False, unique=True, max_length=250
+        verbose_name="Número de tarjeta.", null=False, unique=True, max_length=16
     )
     holder = models.CharField(
         verbose_name="Titular de la tarjeta", null=False, max_length=600
     )
-    expiration_date = models.DateField(verbose_name="Fecha de expiracion", null=False)
+    expiration_date = models.CharField(
+        verbose_name="Fecha de expiracion", null=False, max_length=8
+    )
     cvv = models.CharField(verbose_name="CVV", null=False, max_length=3)
     type = models.CharField(
-        verbose_name="Tipo de tarjeta", blank=True, null=True, max_length=56
-    )
-    credit_limit = models.DecimalField(
-        "Límite de credito", blank=True, null=True, max_digits=10, decimal_places=2
+        verbose_name="Tipo de tarjeta",
+        blank=True,
+        null=True,
+        choices=TypeC,
+        default=TypeC.CREDIT,
+        max_length=2,
     )
     current_balance = models.DecimalField(
         verbose_name="Saldo actual",
@@ -38,11 +46,7 @@ class Card(TimeStampedBaseModel):
         choices=Status.choices,
         default=Status.ACTIVE,
     )
-    issue_date = models.DateField(
-        verbose_name="Fecha de emision",
-        blank=True,
-        null=True,
-    )
+
     bank = models.ForeignKey(Bank, verbose_name="Banco", on_delete=models.CASCADE)
 
     class Meta:

@@ -6,7 +6,7 @@ class CardListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = "__all__"
-        depth = 1
+        depth = 2
 
 
 class CardSerializer(serializers.ModelSerializer):

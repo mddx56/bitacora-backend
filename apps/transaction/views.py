@@ -19,8 +19,9 @@ class TransactionView(generics.ListCreateAPIView):
     queryset = Transaction.objects.all()
 
 
+"""
 @api_view(["POST"])
-def DebitCard(request):
+def CreditCard(request):
     with transaction.atomic():
         serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():
@@ -66,10 +67,11 @@ def DebitCard(request):
         return Response(
             data=serializer_transaction.data, status=status.HTTP_201_CREATED
         )
+"""
 
 
 @api_view(["POST"])
-def CreditCard(request):
+def DevitCard(request):
     with transaction.atomic():
         serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():

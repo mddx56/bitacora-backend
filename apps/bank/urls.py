@@ -1,10 +1,10 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 from apps.bank import views
 
 urlpatterns = [
-    path("list/", views.BankListAPIView.as_view(), name="Bank list"),
+    path("list/", views.BankListView, name="Bank list"),
+    # path("list/", views.BankListAPIView.as_view(), name="Bank list"),
     path("create/", views.BankCreateAPIView.as_view(), name="Bank create"),
-    path("update/<pk>", views.BankUpdateAPIView.as_view(), name="Bank update"),
-    path("get/<pk>", views.BankRetrieveAPIView.as_view(), name="Bank get"),
+    # path("update/<pk>", views.BankListView, name="Config update"),
+    path("get/<int:id>", views.BankRetrieveView, name="Bank get"),
 ]
