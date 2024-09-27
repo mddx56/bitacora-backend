@@ -11,12 +11,13 @@ class Bank(TimeStampedBaseModel):
         MONTH = "M", "Mensual"
 
     name = models.CharField(verbose_name="Nombre de banco", null=False, max_length=350)
-    logo = models.URLField(verbose_name="Url Logo")
+    logo = models.URLField(verbose_name="Url Logo", null=True, blank=True)
     limit_amount = models.DecimalField(
         verbose_name="Monto Limite", max_digits=10, decimal_places=2
     )
     period = models.CharField(
         verbose_name="Frecuencia dia",
+        null=False,
         choices=Period.choices,
         default=Period.WEEK,
         max_length=2,

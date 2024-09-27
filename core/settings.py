@@ -22,6 +22,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 INSTALLED_APPS = [
     # "unfold",
+    "django_crontab",
     "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -123,6 +124,8 @@ REST_FRAMEWORK = {
 #        },
 #    }
 # }
+
+CRONJOBS = [("*/2 * * * *’, apps.bank.cron.my_cron_job")]
 
 
 LANGUAGE_CODE = "es-BO"

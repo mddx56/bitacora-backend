@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Bank
-from .serializers import BankSerializer
+from .serializers import BankSerializer, ConfigSerializer
 
 
 class BankCreateAPIView(CreateAPIView):
@@ -45,6 +45,16 @@ def BankRetrieveView(request, id):
         return Response(data=bank_data, status=status.HTTP_200_OK)
     except Bank.DoesNotExist:
         return Response({"detail": "Bank not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["PUT", "PATCH"])
+def BankConfigView(request):
+    serializer = ConfigSerializer(data=request.data)
+    if serializer.is_valid():
+        print(serializer.validated_data)
+    else:
+        print(serializer.errors)
+    return Response(data={"banks_data"}, status=status.HTTP_200_OK)
 
 
 class BankRetrieveAPIView(RetrieveAPIView):
