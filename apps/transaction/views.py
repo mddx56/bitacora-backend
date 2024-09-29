@@ -23,7 +23,7 @@ class TransactionView(generics.ListCreateAPIView):
     queryset = Transaction.objects.all()
 
 
-class TransactionListView(generics.ListCreateAPIView):
+class TransactionListView(generics.ListAPIView):
     serializer_class = TransactionListSerializer
     queryset = Transaction.objects.all()
 
