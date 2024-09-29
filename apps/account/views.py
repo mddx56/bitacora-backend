@@ -8,9 +8,15 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.models import Group
-from .serializers import GroupSerializer, MyTokenObtainPairSerializer
+from .serializers import (
+    GroupSerializer,
+    MyTokenObtainPairSerializer,
+    ChangePasswordSerializer,
+)
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
+
 
 User = get_user_model()
 
@@ -68,3 +74,21 @@ class GroupListCreateAPIView(APIView):
         ser = UserSerializer(users)
         return Response(ser.data)
 """
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        serializer = ChangePasswordSerializer(
+            data=request.data, context={"request": request}
+        )
+
+        if serializer.is_valid():
+            serializer.update(user, serializer.validated_data)
+            return Response(
+                {"detail": "Contraseña cambiada exitosamente."},
+                status=status.HTTP_200_OK,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -15,6 +15,10 @@ class CardSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CardIdSerializer(serializers.Serializer):
+class CardDeletedSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     deleted_at = serializers.BooleanField()
+
+
+class CardIdSerializer(serializers.Serializer):
+    id = serializers.IntegerField()

@@ -9,5 +9,6 @@ urlpatterns = [
     path("create/", views.CardCreateAPIView.as_view(), name="Card create"),
     path("update/<pk>/", views.CardUpdateAPIView.as_view(), name="Card update"),
     path("disable/", views.CardDisableView, name="Card disable"),
+    path("reset-amount/", views.CardResetBalanceView, name="Card reset"),
     path("get/<pk>/", views.CardRetrieveAPIView.as_view(), name="Card retrieve"),
 ]

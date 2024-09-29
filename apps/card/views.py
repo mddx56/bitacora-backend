@@ -5,7 +5,27 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView
 from apps.bank.models import Bank
 from .models import Card
-from .serializers import CardSerializer, CardListSerializer, CardIdSerializer
+from .serializers import (
+    CardSerializer,
+    CardListSerializer,
+    CardIdSerializer,
+    CardDeletedSerializer,
+)
+
+
+class CardCreateAPIView(CreateAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+
+
+class CardUpdateAPIView(UpdateAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
+
+
+class CardRetrieveAPIView(RetrieveAPIView):
+    queryset = Card.objects.all()
+    serializer_class = CardSerializer
 
 
 @api_view(["GET"])
@@ -24,7 +44,7 @@ def CardListView(request):
 
 @api_view(["POST"])
 def CardDisableView(request):
-    serializer = CardIdSerializer(data=request.data)
+    serializer = CardDeletedSerializer(data=request.data)
     try:
         if serializer.is_valid():
             card_id = serializer.validated_data["id"]
@@ -48,19 +68,33 @@ def CardDisableView(request):
         return Response(
             {"detail": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND
         )
-    return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class CardCreateAPIView(CreateAPIView):
-    queryset = Card.objects.all()
-    serializer_class = CardSerializer
+def reset_current_balance(card: Card):
+    try:
+        card.current_balance = card.bank.limit_amount
+        card.status = Card.Status.ACTIVE
+        card.save()
+    except Bank.DoesNotExist:
+        print("banco no existe")
 
 
-class CardUpdateAPIView(UpdateAPIView):
-    queryset = Card.objects.all()
-    serializer_class = CardSerializer
-
-
-class CardRetrieveAPIView(RetrieveAPIView):
-    queryset = Card.objects.all()
-    serializer_class = CardSerializer
+@api_view(["POST"])
+def CardResetBalanceView(request):
+    serializer = CardIdSerializer(data=request.data)
+    try:
+        if serializer.is_valid():
+            card_id = serializer.validated_data["id"]
+            card = Card.objects.get(id=card_id)
+            reset_current_balance(card)
+            return Response(
+                {"detail": "Tarjeta monto reiniciado"}, status=status.HTTP_200_OK
+            )
+        else:
+            return Response(
+                {"detail": serializer.errors}, status=status.HTTP_400_BAD_REQUEST
+            )
+    except Card.DoesNotExist:
+        return Response(
+            {"detail": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND
+        )
