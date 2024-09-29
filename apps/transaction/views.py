@@ -5,7 +5,11 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from apps.card.models import Card
 from .models import Transaction, Category
-from .serializers import TransactionSerializer, CategorySerializer
+from .serializers import (
+    TransactionSerializer,
+    CategorySerializer,
+    TransactionListSerializer,
+)
 from django.db import transaction
 
 
@@ -16,6 +20,11 @@ class CategoryView(generics.ListCreateAPIView):
 
 class TransactionView(generics.ListCreateAPIView):
     serializer_class = TransactionSerializer
+    queryset = Transaction.objects.all()
+
+
+class TransactionListView(generics.ListCreateAPIView):
+    serializer_class = TransactionListSerializer
     queryset = Transaction.objects.all()
 
 

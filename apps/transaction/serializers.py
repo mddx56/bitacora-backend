@@ -8,6 +8,13 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class TransactionListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = "__all__"
+        depth = 1
+
+
 class TransactionSerializer(serializers.ModelSerializer):
     def validate_amount(self, value):
         print(value)
@@ -25,4 +32,3 @@ class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
         fields = "__all__"
-        depth = 1
