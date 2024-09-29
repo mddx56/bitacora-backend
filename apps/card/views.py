@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView
 from apps.bank.models import Bank
 from .models import Card
-from .serializers import CardSerializer, CardListSerializer
+from .serializers import CardSerializer, CardListSerializer, CardIdSerializer
 
 
 @api_view(["GET"])
@@ -20,6 +20,35 @@ def CardListView(request):
         return Response(data=cards_data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(["POST"])
+def CardDisableView(request):
+    serializer = CardIdSerializer(data=request.data)
+    try:
+        if serializer.is_valid():
+            card_id = serializer.validated_data["id"]
+            deleted_at = serializer.validated_data["deleted_at"]
+            card = Card.objects.get(id=card_id)
+            card.deleted_at = deleted_at
+            card.save()
+            if deleted_at:
+                return Response(
+                    {"detail": "Tarjeta deshabilitada"}, status=status.HTTP_200_OK
+                )
+            else:
+                return Response(
+                    {"detail": "Tarjeta habilitada"}, status=status.HTTP_200_OK
+                )
+        else:
+            return Response(
+                {"detail": serializer.errors}, status=status.HTTP_400_BAD_REQUEST
+            )
+    except Card.DoesNotExist:
+        return Response(
+            {"detail": "Tarjeta no encontrada"}, status=status.HTTP_404_NOT_FOUND
+        )
+    return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CardCreateAPIView(CreateAPIView):

@@ -13,3 +13,8 @@ class CardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
         fields = "__all__"
+
+
+class CardIdSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    deleted_at = serializers.BooleanField()

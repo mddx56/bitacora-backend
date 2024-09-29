@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
 #    }
 # }
 
-CRONJOBS = [("*/2 * * * *’, apps.bank.cron.my_cron_job")]
+CRONJOBS = [("*/2 * * * *", "apps.bank.cron.my_cron_job")]
 
 
 LANGUAGE_CODE = "es-BO"

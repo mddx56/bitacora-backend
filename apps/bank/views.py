@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from .models import Bank
-from .serializers import BankSerializer, ConfigSerializer
+from .serializers import BankSerializer, ConfigSerializer, BankUpdateSerializer
 
 
 class BankCreateAPIView(CreateAPIView):
@@ -17,8 +17,12 @@ class BankCreateAPIView(CreateAPIView):
 
 
 class BankUpdateAPIView(UpdateAPIView):
-    serializer_class = BankSerializer
+    serializer_class = BankUpdateSerializer
     queryset = Bank.objects.all()
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs["exclude_fields"] = ["start_date", "end_date"]
+        return super().get_serializer(*args, **kwargs)
 
 
 class BankListAPIView(ListAPIView):

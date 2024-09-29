@@ -9,6 +9,7 @@ class Bank(TimeStampedBaseModel):
         WEEK = "W", "Semanal"
         BIWEENLY = "B", "Quincenal"
         MONTH = "M", "Mensual"
+        OTRO = "O", "Otro"
 
     name = models.CharField(verbose_name="Nombre de banco", null=False, max_length=350)
     logo = models.URLField(verbose_name="Url Logo", null=True, blank=True)
